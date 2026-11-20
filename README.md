@@ -7,7 +7,11 @@ Backend: Node.js + Express 4 + Postgres (Neon) / SQLite local + Socket.IO + JWT.
 
 ```
 server/
-├── server.js      # API REST + Socket.IO
+├── server.js      # API REST + Socket.IO + web (sirve public/)
+├── public/        # Versión web para iPhone/Safari (index.html, iconos, manifest)
+│   ├── index.html # una sola página: entrar/crear cuenta, chats, mensajes
+│   ├── icon-180.png / icon-512.png  # icono para "Añadir a pantalla de inicio"
+│   └── manifest.webmanifest
 ├── db.js          # Postgres (DATABASE_URL) o SQLite local, misma API
 ├── crypto.js      # AES-256-GCM en reposo
 ├── package.json
@@ -16,6 +20,17 @@ server/
 ├── .env.example   # variables locales (copiar a .env, nunca subir)
 └── data/          # SQLite local (solo desarrollo, no se sube)
 ```
+
+## Versión web (iPhone / Safari)
+
+El APK de Android no se instala en iPhone, así que el mismo servidor
+sirve una web móvil en `/`: abrir https://sakura-chat-familia.onrender.com/
+en Safari, crear cuenta o entrar con usuario/correo, y chatear con las
+mismas cuentas y mensajes que la app Android (misma API, mismo contrato:
+texto plano por HTTPS, cifrado en reposo en el servidor). En Safari →
+Compartir → "Añadir a pantalla de inicio" para abrirla como app. Sondeo
+(polling) cada 3–5 s; sin notificaciones con Safari cerrado. Solo chats
+directos (DM); los grupos se crean desde la app Android.
 
 ## Desarrollo local
 
